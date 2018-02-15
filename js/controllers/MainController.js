@@ -26,6 +26,15 @@ app.controller('scope-gallery', function($scope, $http) {
     $scope.fileHref = "http://farm"+photo.farm+".staticflickr.com/"+photo.server+"/"+photo.id+"_"+photo.secret+".jpg";  
   }
 
+//  // load INSTAGRAM Photos
+//   $http({
+//     method: 'GET',
+//     url: 'https://api.instagram.com/v1/media/{media-id}?access_token=5556067055.986f998.fa47ce1bddf34325a129d6d4f99e1586'
+//   }).then(function(response) {
+//     $scope.photos = response;
+//     console.log(response);
+//   });
+
 
 // // load AMAZON Products
 //   $http({
@@ -46,7 +55,6 @@ app.controller('scope-gallery', function($scope, $http) {
       $scope.loading=false;
       return photo;
     });
-
   });
 
   $scope.searchButton = function() {
