@@ -1,6 +1,5 @@
 app.controller('scope-gallery', function($scope, $http) {
 
-  var amazon = require('amazon-product-api');
   $scope.status = "Loading...";
   $scope.loading = true;
   $scope.qrCode = "";
