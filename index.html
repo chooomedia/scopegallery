@@ -1,91 +1,118 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="picPage">
+<html lang="en" ng-app="scopeGallery">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>a simple Angular Page</title>
+    <title>Scope Gallery</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-- Scripts -->
-    <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
-    <script language="javascript" type="text/javascript" src="../../node_modules/angular/angular.js"></script>
-    <script language="javascript" type="text/javascript" src="js/bootstrap.min.js"></script>
-
+    <script src="bower_components/jQuery/dist/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="bower_components/angular/angular.js"></script>
+   
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">   
+
     <!-- Custom Styles -->
     <link href="css/custom-style.css" rel="stylesheet">
 </head>
 
 
-<body ng-controller="MainController">
+<body ng-controller="scope-gallery">
 <header>
     <div class="row">
-        <nav style="padding: 0;" class="panel-navbar navbar-default col-lg-3 navbar-fixed-top">
+        <nav style="padding: 0 8px;" class="panel-navbar navbar-default col-lg-3 navbar-fixed-top">
             <div class="container-fluid" style="margin: 0;">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button style="margin-left: 8px;" type="button" class="navbar-toggle collapsed"
+                    <!-- <button style="margin-left: 8px;" type="button" class="navbar-toggle collapsed"
                             data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                    </button>
+                    </button> -->
                     <a class="navbar-brand-logo" href="#">
                         <div class="captionLogo">
                             <div class="arrow_boxLogo"><h3>scope</h3> gallery</div>
                         </div>
                     </a>
-                    <div class="input-group" style="margin: 8px 0 -8px 0;">
-                        <input style="margin-left: 8px;" type="text" ng-model="searchField" name="searchBy" id="searchBy" class="form-control" placeholder="...search" aria-describedby="basic-addon2">
-                        <span class="input-group-addon" style="background-color:#fff;border:0;padding:0 0 0 6px;display:table-cell;">
-                            <button type="button" ng-Click="searchButton" id="filter" class="button-rounded-right btn btn-primary">
+                    <form ng-submit="searchButton()" class="input-group row" style="margin: 8px 0 -8px 0; display:flex;">
+                        <span class="col-md-5 col-xs-6 no-gutter">
+                            <input style="margin-left: 8px;" type="text" id="searchBy" class="form-control" ng-model="searchField" placeholder="...search" aria-describedby="basic-addon2">
+                        </span>  
+                        <span class="col-md-5 col-xs-5 no-gutter">
+                            <select ng-model="photo" ng-selected="photo">
+                                <option ng-repeat="photo in photos">
+                                    {{photo.title}}
+                                </option>
+                            </select>
+                        </span>   
+                        <span class="col-md-2 col-xs-2 input-group-addon" style="background-color:#fff;border:0;padding:0;display:inline-flex;">
+                            <button type="button" ng-click="searchButton()" id="filter" class="button-rounded-right btn btn-primary">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
                         </span>
-                    </div>
-<!--
-                        <div class="col-md-8" style="margin: 8px 0 -8px 0;">
-                            <div class="form-group">
-                                <div class="input-group">
-                                  <input type="text" ng-model="enteredValue" name="searchBy" id="searchBy" class="form-control" />
-                                   <button type="button" ng-Click="findValue(enteredValue)" id="filter"
-                                           class="button-rounded-right btn btn-primary btn-block">
-                                       <span class="glyphicon glyphicon-search"></span>
-                                   </button>
-                               </div>
-                           </div>
-                       </div>
--->
+                    </form>
                </div>
            </div>
        </nav>
 </header>
-<h3 style="display:none;">Results</h3>
 
 <section class="row no-gutter">
-   <article class="col-sm-6 col-md-3" ng-repeat="photo in photos">
-       <div class="thumbnail">
-           <div class="images"
-                style="background-image: url('http://farm{{photo.farm}}.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}_b.jpg');">
-               <div class="caption">
-                   <div class="arrow_box">
-                       <h3>{{photo.title}}</h3>
-                   </div>
-                   <div class="rating">
-                       <p class="likes" ng-click="plusOne(photo)">+{{ photo.likes === undefined ? 0 : photo.likes }} </p>
-                       <p ng-class="['shareMaster'].concat(photo.classes)" ng-click="toggleShareMaster(photo)"><span
-                               class="glyphicon glyphicon-share"></span></p>
-                       <p class="dislikes" ng-click="minusOne(photo)">+{{ photo.dislikes === undefined ? 0 :
-                           photo.dislikes }} </p>
-                   </div>
+    <!-- <product class="col-sm-6 col-md-6" ng-repeat="product in products">
+        <div class="images" style="background-image: url('http://farm{{photo.farm}}.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}_b.jpg');">
+            <div class="caption">
+                <div class="arrow_box">
+                    <h3>{{product}}</h3>
+                </div>
+            </div>
+    </product> -->
+    <article class="col-sm-6 col-md-3" ng-repeat="photo in photos">
+        <div class="thumbnail">
+            <div class="images" style="background-image: url('http://farm{{photo.farm}}.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}_b.jpg');">
+                <div class="caption">
+                    <div class="arrow_box">
+                        <h3>{{photo.title}}</h3>
+                    </div>
+                    <div class="col-6 rating">
+                            <p class="download-photo" ng-click="showAlert=!showAlert">
+                                <span class="glyphicon glyphicon-transfer" ng-show="!showAlert"></span>
+                                <span class="glyphicon glyphicon-warning-sign" ng-show="showAlert"></span>
+                            </p>
+                            <p class="download-photo-sub" ng-show="showAlert">
+                                <em>Download this Photo?</em>
+                                <br>
+                                <a class="download-photo" ng-click="downLoad(photo)" href="{{fileHref}}" download="photo">
+                                    <span class="glyphicon glyphicon-ok" title="Download this Photo"></span>
+                                </a>
+                            </p>
 
-               </div>
-           </div>
-   </article>
+                            <p ng-class="photo.cssClass" ng-click="toggleQr(photo)" title="click to generate QR Code from Photo">
+                            <span ng-show="!photo.showQr" class="glyphicon glyphicon-qrcode glyph-2x"></span>
+                                <span><qr size="110" text="qrCode" ng-show="photo.showQr"></qr></span>  
+                            </p>
+
+                            <p class="enlarge-photo" ng-click="showEnlargeAlert=!showEnlargeAlert">
+                                <span class="glyphicon glyphicon-fullscreen" ng-show="!showEnlargeAlert"></span>
+                                <span class="glyphicon glyphicon-warning-sign" ng-show="showEnlargeAlert"></span>
+                            </p>
+                            <p class="enlarge-photo-sub" ng-show="showEnlargeAlert">
+                                <em>Enlarge this Photo?</em>
+                                <br>
+                                <a class="enlarge-photo" ng-click="enLarge(photo)">
+                                    <span class="glyphicon glyphicon-ok" title="Enlarge this Photo"></span>
+                                </a>
+                            </p>
+                    </div>
+                </div>
+                </div>
+            </div>
+    </article>
 </section>
 
 <div class="col-md-1 col-md-offset-6 col-xs-4 col-xs-offset-4 text-center panel-rounded navbar-fixed-bottom" style="font-size:90%;">
@@ -99,12 +126,17 @@
 
 <!-- Modules -->
 <script src="js/app.js"></script>
+<script src="js/xml2json.js"></script>
 
 <!-- Controllers -->
 <script src="js/controllers/MainController.js"></script>
 
 <!-- ScrollTop Script -->
 <script src="js/scrollanimate.js"></script>
+
+<!-- QR Code Generator-->
+<script type="text/javascript" src="bower_components/qrcode/lib/qrcode.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-qr/angular-qr.min.js"></script>
 
 </body>
 </html>

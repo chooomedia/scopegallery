@@ -1,0 +1,30 @@
+{
+  "name": "scopegallery",
+  "authors": [
+    "Christopher M."
+  ],
+  "description": "a tiny, minimalistic gallery with fixed image-items connected with flick api also with other apis easy connectable",
+  "main": "index.html",
+  "keywords": [
+    "angular",
+    "gallery",
+    "scope",
+    "flickr",
+    "instagram",
+    "chooomedia"
+  ],
+  "license": "MIT",
+  "homepage": "http://dev.chooo.media",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jQuery": "latest",
+    "angular-qr":"latest"
+  }
+}

@@ -1,4 +1,3 @@
-$(document).ready(function() {
 var mywindow = $(window);
     var mypos = mywindow.scrollTop();
     var up = false;
@@ -21,4 +20,3 @@ var mywindow = $(window);
         $('html, body').animate({scrollTop : 0},800);
         return false;
     });
-});

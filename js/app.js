@@ -1,1 +1,1 @@
-var app = angular.module("picPage", []);
+var app = angular.module('scopeGallery', ['ja.qr']);

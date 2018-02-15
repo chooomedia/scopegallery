@@ -1,39 +1,68 @@
-app.controller('MainController', function($scope, $http) {
+app.controller('scope-gallery', function($scope, $http) {
 
-    $scope.status = "Loading...";
-    $scope.searchField = "";
+  var amazon = require('amazon-product-api');
+  $scope.status = "Loading...";
+  $scope.loading = true;
+  $scope.qrCode = "";
+  $scope.photoCat = "photo";
+  $scope.fileHref = "";
+  $scope.searchField = "";
 
-    $http({
-        method:'GET',
-        url:'https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=2e75e9b563bf1f9993dbae881bc49db1&format=json&nojsoncallback=1'
-    }).then(function(response) {
-        $scope.status = "Done!";
-        $scope.photos = response.data.photos.photo;
+  $scope.toggleQr = function(photo) {
+    $scope.qrCode = "http://farm"+photo.farm+".staticflickr.com/"+photo.server+"/"+photo.id+"_"+photo.secret+".jpg";
+    photo.showQr =! photo.showQr;
+
+    if (photo.showQr) {
+      photo.cssClass = 'qrButton qrActive';
+    }
+  };
+
+  $scope.downLoad = function(photo) {
+    console.log('Download Photo');
+    $scope.fileHref = "http://farm"+photo.farm+".staticflickr.com/"+photo.server+"/"+photo.id+"_"+photo.secret+".jpg";  
+  }
+
+  $scope.enLarge = function(photo) {
+    console.log('Enlarge Photo');
+    $scope.fileHref = "http://farm"+photo.farm+".staticflickr.com/"+photo.server+"/"+photo.id+"_"+photo.secret+".jpg";  
+  }
+
+
+// // load AMAZON Products
+//   $http({
+//     method: 'GET',
+//     url: 'http://webservices.amazon.de/onca/json?Service=AWSECommerceService&Operation=ItemSearch&SubscriptionId=AKIAIELN3ERONKG4TMKQ&AssociateTag=mucrum-21&SearchIndex=All&Keywords=smartphone&ResponseGroup=Images,ItemAttributes,Offers'
+//   }).then(function(response) {
+//     $scope.products = response;
+//   });
+
+
+  // load FLICKR Photos
+  $http({
+    method: 'GET',
+    url: 'https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=2e75e9b563bf1f9993dbae881bc49db1&format=json&nojsoncallback=1'
+  }).then(function(response) {
+    $scope.photos = response.data.photos.photo.map(function(photo) {
+      photo.cssClass = 'qrButton';
+      $scope.loading=false;
+      return photo;
     });
 
-    $scope.plusOne = function(photo) {
-        if (photo.likes === undefined) {
-            photo.likes = 1;
-        } else {
-            photo.likes +=1;
-        }
-    };
+  });
 
-    $scope.minusOne = function(photo) {
-        photo.dislikes = photo.dislikes === undefined ? 1 : photo.dislikes + 1;
-    };
+  $scope.searchButton = function() {
+    let searchResult = [this.searchField, this.photo];
+    console.log(searchResult);
 
-    $scope.searchButton = function() {
-        $scope.searchField = searchField.text;
-        $http.jsonp("http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=74ea3bb6fc4420d5b298df4d99762e5e&text="+searchField+"&format=json&nojsoncallback=1&api_sig=7f697a5a32da7e770539a7dae4a6cef2").
-        success(function (data) {
-            $scope.images = data.items;
-            $scope.loading = false;
-        }).
-        error(function (data) {
-            $scope.images = "Request failed";
-            $scope.loading = false;
-        });
-
-    };
+    $http({
+      method: 'GET',
+      url: 'http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=2e75e9b563bf1f9993dbae881bc49db1&text=' + searchResult + '&format=json&nojsoncallback=1'
+    }).then(function(response) {
+      $scope.status = "Done!";
+      $scope.photos = response.data.photos.photo.map(function(photo) {
+        photo.cssClass = 'qrButton';
+        return photo;
+      });
+    });
+  };
 });
