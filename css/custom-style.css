@@ -127,6 +127,7 @@ h3:empty {
 .qrButton {
     color: #000;
     background: #fff;
+    margin: 0 8px;
 }
 
 .rating {
@@ -135,7 +136,6 @@ h3:empty {
 }
 
 .rating p {
-    margin: 2px 4px;
     cursor: pointer;
     font-size: 15px;
     min-height: 34px;
@@ -167,7 +167,7 @@ h3:empty {
 .download-photo {
     background: tomato;
     color: #FFF;
-    line-height: 27px;
+    line-height: 24px;
 }
 
 .enlarge-photo {
@@ -186,8 +186,7 @@ h3:empty {
     position: absolute;
     z-index: 10;
     top: 84px;
-    left: 18.65%;
-    width: 60%;
+    width: 72.25%;
     line-height: 36px;
     background: rgba(255, 255, 255, 0.95);
     -webkit-box-shadow: 0px 2px 1px 1px rgba(255,255,255,1);
@@ -206,7 +205,7 @@ h3:empty {
     width: 59px;
     line-height: 48px;
     top: 55px;
-    left: 35.1%;
+    left: 41.5%;
     height: 60px;
 }
 
