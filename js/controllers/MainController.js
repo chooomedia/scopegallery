@@ -1,13 +1,22 @@
-app.controller('scope-gallery', function ($scope, $http) {
-    $scope.showLoader = true;
-    $scope.status = "Loading...";
+app.controller('scopeGallery', function ($scope, $http) {
+
+    $scope.loading = true;
+    $http.get('https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=2e75e9b563bf1f9993dbae881bc49db1&format=json&nojsoncallback=1').success(function (data) {
+        $scope.photos = data.photos.photo;
+        $scope.loading = false;
+        return photo;
+    }, 600);
+
     $scope.qrCode = "";
     $scope.photoCat = "photo";
     $scope.fileHref = "";
     $scope.searchField = "";
+    $scope.backgr = "(0,0,0,0.1)";
+
 
     $scope.toggleQr = function (photo) {
-        $scope.qrCode = "http://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg";
+        this.qrCode = "http://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg";
+        photo.qrClicked = 'qrActive';
         photo.showQr = !photo.showQr;
 
         if (photo.showQr) {
@@ -21,26 +30,20 @@ app.controller('scope-gallery', function ($scope, $http) {
     };
 
     $scope.enLarge = function (photo) {
-        console.log('Enlarge Photo');
-        $scope.fileHref = "http://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg";
+        $scope.photoEnlarge = "http://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg";
+        $scope.displayer = 'block';
+        $scope.backgr = '(0,0,0,0.9)';
+        $scope.animateBox = 'animated';
     };
 
-    // load FLICKR Photos
-
-    $http({
-        method: 'GET',
-        url: 'https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=2e75e9b563bf1f9993dbae881bc49db1&format=json&nojsoncallback=1'
-    }).then(function (response) {
-        $scope.photos = response.data.photos.photo.map(function (photo) {
-            photo.cssClass = 'qrButton';
-            return photo;
-        }, 3000);
-        $scope.showLoader = false;
-    });
+    $scope.closeDialog = function (closeIt) {
+        this.closeIt = true;
+        $scope.displayer = 'none';
+        $scope.backgr = '(0,0,0,0)';
+    };
 
     $scope.searchButton = function () {
         let searchResult = [this.searchField, this.photo];
-        console.log(searchResult);
 
         $http({
             method: 'GET',
@@ -50,7 +53,7 @@ app.controller('scope-gallery', function ($scope, $http) {
             $scope.photos = response.data.photos.photo.map(function (photo) {
                 photo.cssClass = 'qrButton';
                 return photo;
-            }, 3000);
+            }, 600);
         });
     };
 });

@@ -14,15 +14,19 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
 
     <!-- Custom Styles -->
     <link href="css/custom-style.css" rel="stylesheet">
 </head>
 
-
-<body ng-controller="scope-gallery">
+<body ng-controller="scopeGallery">
+<div class="modal" ng-style="animateBox" style="display:{{displayer}};">
+    <div class="container" ng-click="closeDialog(closeIt)">
+        <img src="{{photoEnlarge}}" alt="Big Photo">
+    </div>
+</div>
 <header>
     <div class="row">
         <nav style="padding: 0 8px;" class="panel-navbar navbar-default col-lg-3 navbar-fixed-top">
@@ -41,9 +45,11 @@
                             <div class="arrow_boxLogo"><h3>scope</h3> gallery</div>
                         </div>
                     </a>
-                    <form ng-submit="searchButton()" class="input-group row" style="margin: 8px 0 -8px 0; display:flex;">
+                    <form ng-submit="searchButton()" class="input-group row"
+                          style="margin: 8px 0 -8px 0; display:flex;">
                         <span class="col-md-5 col-xs-6 no-gutter">
-                            <input style="margin-left: 8px;" type="text" id="searchBy" class="form-control" ng-model="searchField" placeholder="...search" aria-describedby="basic-addon2">
+                            <input style="margin-left: 8px;" type="text" id="searchBy" class="form-control"
+                                   ng-model="searchField" placeholder="...search" aria-describedby="basic-addon2">
                         </span>
                         <span class="col-md-5 col-xs-5 no-gutter">
                             <select ng-model="photo" ng-selected="photo">
@@ -52,15 +58,17 @@
                                 </option>
                             </select>
                         </span>
-                        <span class="col-md-2 col-xs-2 input-group-addon" style="background-color:#fff;border:0;padding:0;display:inline-flex;">
-                            <button type="button" ng-click="searchButton()" id="filter" class="button-rounded-right btn btn-primary">
+                        <span class="col-md-2 col-xs-2 input-group-addon"
+                              style="background-color:#fff;border:0;padding:0;display:inline-flex;">
+                            <button type="button" ng-click="searchButton()" id="filter"
+                                    class="button-rounded-right btn btn-primary">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
                         </span>
                     </form>
-               </div>
-           </div>
-       </nav>
+                </div>
+            </div>
+        </nav>
 </header>
 
 <section class="row no-gutter">
@@ -72,56 +80,59 @@
                 </div>
             </div>
     </product> -->
-    <article class="col-sm-6 col-md-3" ng-repeat="photo in photos" ng-cloak="">
+    <article class="col-sm-6 col-md-3" ng-repeat="photo in photos">
         <div class="thumbnail">
-            <div ng-hide="showLoader" class="images" style="background-image: url('http://farm{{photo.farm}}.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}_b.jpg');">
-                <div class="caption" ng-hide="showLoader">
+            <loading></loading>
+            <div class="images" style="background-image: url('http://farm{{photo.farm}}.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}_b.jpg');">
+                <div class="caption">
                     <div class="arrow_box">
                         <h3>{{photo.title}}</h3>
                     </div>
                     <div class="col-6 rating">
-                            <p class="download-photo" ng-click="showAlert=!showAlert">
-                                <span class="glyphicon glyphicon-transfer" ng-show="!showAlert"></span>
-                                <span class="glyphicon glyphicon-warning-sign" ng-show="showAlert"></span>
-                            </p>
-                            <p class="download-photo-sub" ng-show="showAlert">
-                                <em>Download this Photo?</em>
-                                <br>
-                                <a class="download-photo" ng-click="downLoad(photo)" href="{{fileHref}}" download="photo">
-                                    <span class="glyphicon glyphicon-ok" title="Download this Photo"></span>
-                                </a>
-                            </p>
+                        <p class="download-photo" ng-click="showAlert=!showAlert">
+                            <span class="glyphicon glyphicon-transfer" ng-show="!showAlert"></span>
+                            <span class="glyphicon glyphicon-warning-sign" ng-show="showAlert"></span>
+                        </p>
+                        <p class="download-photo-sub" ng-show="showAlert">
+                            <em>Download this Photo?</em>
+                            <br>
+                            <a class="download-photo" ng-click="downLoad(photo)" href="{{fileHref}}" download="photo">
+                                <span class="glyphicon glyphicon-ok" title="Download this Photo"></span>
+                            </a>
+                        </p>
 
-                            <p ng-class="photo.cssClass" ng-click="toggleQr(photo)" title="click to generate QR Code from Photo">
-                            <span ng-if="!loading" ng-show="!photo.showQr" class="glyphicon glyphicon-qrcode glyph-2x"></span>
-                                <span><qr size="112" text="qrCode" ng-show="photo.showQr"></qr></span>
-                            </p>
+                        <p class="qrButton" ng-click="toggleQr(photo)" ng-class="photo.qrClicked"
+                           title="click to generate QR Code from Photo">
+                            <span ng-show="!photo.showQr" class="glyphicon glyphicon-qrcode glyph-2x"></span>
+                            <span><qr size="112" text="qrCode" ng-show="photo.showQr"></qr></span>
+                        </p>
 
-                            <p class="enlarge-photo" ng-click="showEnlargeAlert=!showEnlargeAlert">
-                                <span class="glyphicon glyphicon-fullscreen" ng-show="!showEnlargeAlert"></span>
-                                <span class="glyphicon glyphicon-warning-sign" ng-show="showEnlargeAlert"></span>
-                            </p>
-                            <p class="enlarge-photo-sub" ng-show="showEnlargeAlert">
-                                <em>Enlarge this Photo?</em>
-                                <br>
-                                <a class="enlarge-photo" ng-click="enLarge(photo)">
-                                    <span class="glyphicon glyphicon-ok" title="Enlarge this Photo"></span>
-                                </a>
-                            </p>
+                        <p class="enlarge-photo" ng-click="showEnlargeAlert=!showEnlargeAlert">
+                            <span class="glyphicon glyphicon-fullscreen" ng-show="!showEnlargeAlert"></span>
+                            <span class="glyphicon glyphicon-warning-sign" ng-show="showEnlargeAlert"></span>
+                        </p>
+                        <p class="enlarge-photo-sub" ng-show="showEnlargeAlert">
+                            <em>Enlarge this Photo?</em>
+                            <br>
+                            <a class="enlarge-photo" ng-click="enLarge(photo)">
+                                <span class="glyphicon glyphicon-ok" title="Enlarge this Photo"></span>
+                            </a>
+                        </p>
                     </div>
                 </div>
-                </div>
             </div>
+        </div>
     </article>
 </section>
 
-<div class="col-md-1 col-md-offset-6 col-xs-4 col-xs-offset-4 text-center panel-rounded navbar-fixed-bottom" style="font-size:90%;">
-   <img title="CHOOO.MEDIA is creates Apps with AngularJS"
-        src="http://img.chooo.media/chooomedia-logo.png" width="21rem" height="*"/>
-   <span class="lOve glyphicon glyphicon-heart"></span>
-   <img src="assets/images/AngularJS-Shield.svg" width="21rem" height="*"/>
-   <div style="position:fixed;right:0;bottom:0;" class="toTopButton scrollToTop"><span
-           class="glyphicon glyphicon-menu-up"></span></div>
+<div class="col-md-1 col-md-offset-6 col-xs-4 col-xs-offset-4 text-center panel-rounded navbar-fixed-bottom"
+     style="font-size:90%;">
+    <img title="CHOOO.MEDIA is creates Apps with AngularJS"
+         src="http://img.chooo.media/chooomedia-logo.png" width="21rem" height="*"/>
+    <span class="lOve glyphicon glyphicon-heart"></span>
+    <img src="assets/images/AngularJS-Shield.svg" width="21rem" height="*"/>
+    <div style="position:fixed;right:0;bottom:0;" class="toTopButton scrollToTop"><span
+            class="glyphicon glyphicon-menu-up"></span></div>
 </div>
 
 <!-- Modules -->
