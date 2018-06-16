@@ -11,11 +11,11 @@
     <!-- Scripts -->
     <script src="bower_components/jQuery/dist/jquery.min.js"></script>
     <script language="javascript" type="text/javascript" src="bower_components/angular/angular.js"></script>
-   
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
 
     <!-- Custom Styles -->
     <link href="css/custom-style.css" rel="stylesheet">
@@ -44,14 +44,14 @@
                     <form ng-submit="searchButton()" class="input-group row" style="margin: 8px 0 -8px 0; display:flex;">
                         <span class="col-md-5 col-xs-6 no-gutter">
                             <input style="margin-left: 8px;" type="text" id="searchBy" class="form-control" ng-model="searchField" placeholder="...search" aria-describedby="basic-addon2">
-                        </span>  
+                        </span>
                         <span class="col-md-5 col-xs-5 no-gutter">
                             <select ng-model="photo" ng-selected="photo">
                                 <option ng-repeat="photo in photos">
                                     {{photo.title}}
                                 </option>
                             </select>
-                        </span>   
+                        </span>
                         <span class="col-md-2 col-xs-2 input-group-addon" style="background-color:#fff;border:0;padding:0;display:inline-flex;">
                             <button type="button" ng-click="searchButton()" id="filter" class="button-rounded-right btn btn-primary">
                                 <span class="glyphicon glyphicon-search"></span>
@@ -72,10 +72,10 @@
                 </div>
             </div>
     </product> -->
-    <article class="col-sm-6 col-md-3" ng-repeat="photo in photos">
+    <article class="col-sm-6 col-md-3" ng-repeat="photo in photos" ng-cloak="">
         <div class="thumbnail">
-            <div class="images" style="background-image: url('http://farm{{photo.farm}}.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}_b.jpg');">
-                <div class="caption">
+            <div ng-hide="showLoader" class="images" style="background-image: url('http://farm{{photo.farm}}.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}_b.jpg');">
+                <div class="caption" ng-hide="showLoader">
                     <div class="arrow_box">
                         <h3>{{photo.title}}</h3>
                     </div>
@@ -93,8 +93,8 @@
                             </p>
 
                             <p ng-class="photo.cssClass" ng-click="toggleQr(photo)" title="click to generate QR Code from Photo">
-                            <span ng-show="!photo.showQr" class="glyphicon glyphicon-qrcode glyph-2x"></span>
-                                <span><qr size="112" text="qrCode" ng-show="photo.showQr"></qr></span>  
+                            <span ng-if="!loading" ng-show="!photo.showQr" class="glyphicon glyphicon-qrcode glyph-2x"></span>
+                                <span><qr size="112" text="qrCode" ng-show="photo.showQr"></qr></span>
                             </p>
 
                             <p class="enlarge-photo" ng-click="showEnlargeAlert=!showEnlargeAlert">
@@ -116,10 +116,10 @@
 </section>
 
 <div class="col-md-1 col-md-offset-6 col-xs-4 col-xs-offset-4 text-center panel-rounded navbar-fixed-bottom" style="font-size:90%;">
-   <img title="www.chooo.media is developing Web Solutions with Angular1.6"
-        src="http://www.chooo.media/wp-content/themes/egg-one/images/logo.png" width="21rem" height="*"/>
+   <img title="CHOOO.MEDIA is creates Apps with AngularJS"
+        src="http://img.chooo.media/chooomedia-logo.png" width="21rem" height="*"/>
    <span class="lOve glyphicon glyphicon-heart"></span>
-   <img src="https://ngdocsdev.firebaseapp.com/resources/images/logos/angular2/angular.svg" width="25.5rem" height="*"/>
+   <img src="assets/images/AngularJS-Shield.svg" width="21rem" height="*"/>
    <div style="position:fixed;right:0;bottom:0;" class="toTopButton scrollToTop"><span
            class="glyphicon glyphicon-menu-up"></span></div>
 </div>
