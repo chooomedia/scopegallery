@@ -21,10 +21,10 @@
     <link href="css/custom-style.css" rel="stylesheet">
 </head>
 
-<body ng-controller="scopeGallery">
+<body ng-controller="scopeGallery" ng-cloak="">
 <div class="modal" ng-style="animateBox" style="display:{{displayer}};">
     <div class="container" ng-click="closeDialog(closeIt)">
-        <img src="{{photoEnlarge}}" alt="Big Photo">
+        <img class="modalPhoto" src="{{photoEnlarge}}" alt="Big Photo">
     </div>
 </div>
 <header>

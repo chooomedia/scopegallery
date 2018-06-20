@@ -39,7 +39,7 @@ p, div, button {
 
 .modal {
     text-align: center;
-    padding: 6em 0;
+    padding: 3em 0;
     background: rgba(0,0,0,0.9);
     opacity: 1;
     transform: translateY(0);
@@ -47,10 +47,16 @@ p, div, button {
     animation: animatedIn .6s linear;
 }
 
+.modalPhoto {
+    box-sizing: content-box;
+    width: 62%;
+    max-height: inherit;
+}
+
 @keyframes animatedIn {
     from {
         opacity: 0;
-        transform: translateY(3in);
+        transform: translateY(10in);
     }
 }
 
