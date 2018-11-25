@@ -250,7 +250,7 @@ h3:empty {
     width: 58px;
     line-height: 48px;
     top: 55px;
-    left: 37.5%;
+    left: calc(100% - 58.4%);
     height: 60px;
 }
 
