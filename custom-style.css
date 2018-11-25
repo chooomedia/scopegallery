@@ -48,8 +48,9 @@ p, div, button {
 }
 
 .modalPhoto {
-    width: 84%;
-    max-height: auto;
+    box-sizing: content-box;
+    width: 62%;
+    max-height: inherit;
 }
 
 @keyframes animatedIn {
